@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import { useFetchProduct, useSelectedVariant } from '../hooks';

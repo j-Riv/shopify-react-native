@@ -35,7 +35,6 @@ const Collection = ({ navigation, route }) => {
     return (
       <Product
         item={item.node}
-        // onPress={() => setSelectedId(item.node.id)}
         onPress={() =>
           navigation.navigate('Product', {
             handle: item.node.handle

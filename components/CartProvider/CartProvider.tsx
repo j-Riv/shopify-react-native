@@ -10,8 +10,6 @@ import {
 } from './handlers';
 
 export const CartProvider = ({ children }) => {
-  // create methods to access storefront api
-
   const [cart, setCart] = useState<any>(null);
   const [addingToCart, setAddingToCart] = useState<boolean>(false);
 

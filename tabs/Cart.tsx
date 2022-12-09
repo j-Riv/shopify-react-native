@@ -84,7 +84,6 @@ const Cart = ({ navigation }) => {
     return (
       <Product
         line={item.node}
-        // onPress={() => setSelectedId(item.node.id)}
         onPress={() =>
           navigation.navigate('Product', {
             handle: item.node.merchandise.product.handle
@@ -105,7 +104,7 @@ const Cart = ({ navigation }) => {
           extraData={selectedId}
         />
       ) : (
-        <Text style={styles.text}>Cart is Empty</Text>
+        <Text style={styles.text}>Empty</Text>
       )}
     </SafeAreaView>
   );
