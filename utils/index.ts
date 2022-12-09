@@ -22,3 +22,9 @@ export const authenticatedFetch = async (query: string, variables?: any) => {
     console.log('ERROR', err.message);
   }
 };
+
+export const formatPrice = (price: string | number) => {
+  return typeof price === 'string'
+    ? parseFloat(price).toFixed(2)
+    : price.toFixed(2);
+};

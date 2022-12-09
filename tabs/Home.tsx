@@ -1,22 +1,7 @@
-import { Button, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // screens
 import { Collection, Product } from '../screens';
-
-// const Home = ({ navigation }) => {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Home Screen</Text>
-//       <Button
-//         title="Go to Collection"
-//         onPress={() =>
-//           navigation.navigate('Collection', { handle: 'mens-hair' })
-//         }
-//       />
-//     </View>
-//   );
-// };
 
 const Home = ({ navigation }) => {
   const Stack = createNativeStackNavigator();
@@ -27,8 +12,31 @@ const Home = ({ navigation }) => {
         name="Collection"
         component={Collection}
         initialParams={{ handle: 'mens-hair' }}
+        options={{
+          title: 'Collection',
+          headerStyle: {
+            backgroundColor: '#ffffff'
+          },
+          headerTintColor: '#000000',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          }
+        }}
       />
-      <Stack.Screen name="Product" component={Product} />
+      <Stack.Screen
+        name="Product"
+        component={Product}
+        options={{
+          title: 'Product',
+          headerStyle: {
+            backgroundColor: '#ffffff'
+          },
+          headerTintColor: '#000000',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          }
+        }}
+      />
     </Stack.Navigator>
   );
 };

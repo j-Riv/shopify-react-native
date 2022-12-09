@@ -11,6 +11,7 @@ import {
 
 import { useFetchCollection } from '../hooks/useFetchCollection';
 import { Image } from '../components';
+import { formatPrice } from '../utils';
 
 const Product = ({ item, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.product}>
@@ -20,7 +21,7 @@ const Product = ({ item, onPress }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.price}>
-        Starting at ${item.priceRange.minVariantPrice.amount}
+        Starting at ${formatPrice(item.priceRange.minVariantPrice.amount)}
       </Text>
     </View>
   </TouchableOpacity>
@@ -59,14 +60,17 @@ const Collection = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0
+    marginTop: StatusBar.currentHeight || 0,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   product: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
-    padding: 20
+    padding: 20,
+    backgroundColor: 'white'
   },
   image: {
     width: '30%'

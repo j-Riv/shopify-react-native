@@ -4,8 +4,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import { useFetchProduct, useSelectedVariant } from '../hooks';
 import { Button as Btn, Image } from '../components';
-
 import { useCart } from '../components/CartProvider/hooks';
+import { formatPrice } from '../utils';
 
 const ProductTemplate = ({ product }: { product: any }) => {
   const { firstAvailable, selectedVariant, setSelectedVariant } =
@@ -57,15 +57,22 @@ const ProductTemplate = ({ product }: { product: any }) => {
         fullWidth={true}
       />
       <Text style={styles.title}>{product.title}</Text>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-      />
-      <Text style={styles.price}>${selectedVariant?.priceV2.amount}</Text>
+      {product.variants.edges.length > 1 && (
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+        />
+      )}
+
+      <Text style={styles.price}>
+        $
+        {selectedVariant?.priceV2.amount &&
+          formatPrice(selectedVariant?.priceV2.amount)}
+      </Text>
       <Btn
         onPress={() => handleAddToCart(selectedVariant.id)}
         title={title}

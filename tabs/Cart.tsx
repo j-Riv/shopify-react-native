@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 
 import { useCart } from '../components/CartProvider/hooks';
-import { Image } from '../components';
+import { Button, Image } from '../components';
+import { formatPrice } from '../utils';
 
 const Product = ({ line, onPress }) => {
   const { updateProductInCart, removeProductFromCart } = useCart();
@@ -39,7 +40,9 @@ const Product = ({ line, onPress }) => {
           {line.merchandise.title !== 'Default Title' && (
             <Text style={styles.subtitle}>{line.merchandise.title}</Text>
           )}
-          <Text style={styles.price}>${line.merchandise.priceV2.amount}</Text>
+          <Text style={styles.price}>
+            ${formatPrice(line.merchandise.priceV2.amount)}
+          </Text>
           <View style={styles.lineUpdateContainer}>
             <Pressable
               style={styles.lineUpdateButton}
@@ -95,14 +98,19 @@ const Cart = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <Text style={styles.text}>Cart</Text>
       {cart.lines.edges.length > 0 ? (
-        <FlatList
-          data={cart.lines.edges}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.node.id}
-          extraData={selectedId}
-        />
+        <View style={styles.container}>
+          <FlatList
+            data={cart.lines.edges}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.node.id}
+            extraData={selectedId}
+          />
+          <Button
+            onPress={() => console.log('checkout')}
+            title={`Continue to checkout $${cart?.cost?.subtotalAmount.amount}`}
+          />
+        </View>
       ) : (
         <Text style={styles.text}>Empty</Text>
       )}
@@ -111,6 +119,11 @@ const Cart = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: 'white'
+  },
   text: {
     textAlign: 'center'
   },

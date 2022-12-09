@@ -5,7 +5,15 @@ export const useSelectedVariant = (product: any) => {
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   useEffect(() => {
     if (product) {
-      const variant = product.variants.edges[0].node;
+      let variant = product.variants.edges[0].node;
+
+      if (variant.quantityAvailable === 0) {
+        const found = product.variants.edges.find(
+          (el) => el.node.quantityAvailable > 0
+        );
+        if (found) variant = found.node;
+      }
+
       setSelectedVariant(variant);
       setFirstAvailable(variant);
     }
