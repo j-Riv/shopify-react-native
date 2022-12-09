@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SuavecitoWholesale",
-    "slug": "SuavecitoWholesale",
+    "name": "ShopifyReactNative",
+    "slug": "ShopifyReactNative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
