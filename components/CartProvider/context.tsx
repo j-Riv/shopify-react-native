@@ -26,7 +26,8 @@ const defaultContext: ICart = {
   addingToCart: false,
   addProductToCart: async (gid: string) => {},
   updateProductInCart: async (lineId: string) => {},
-  removeProductFromCart: async (lineId: string) => {}
+  removeProductFromCart: async (lineId: string) => {},
+  getNewCart: async () => {}
 };
 
 export const CartContext = createContext(defaultContext);

@@ -28,4 +28,5 @@ export interface ICart {
     quantity: number
   ) => Promise<void>;
   removeProductFromCart: (lineId: string) => Promise<void>;
+  getNewCart: () => Promise<any>;
 }

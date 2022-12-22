@@ -15,9 +15,9 @@ export const CartProvider = ({ children }) => {
 
   const getNewCart = async () => {
     const response = await authenticatedFetch(createCart);
-    if (response) {
-      setCart(response.cartCreate.cart);
-    }
+
+    setCart(response.cartCreate.cart);
+    return response.cartCreate.cart;
   };
 
   // init checkout
@@ -108,7 +108,8 @@ export const CartProvider = ({ children }) => {
       addingToCart,
       addProductToCart,
       updateProductInCart,
-      removeProductFromCart
+      removeProductFromCart,
+      getNewCart
     };
   }, [cart, addProductToCart, updateProductInCart, removeProductFromCart]);
 
