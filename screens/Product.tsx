@@ -4,7 +4,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import { useFetchProduct, useSelectedVariant } from '../hooks';
 import { Button as Btn, Image } from '../components';
-import { useCart } from '../components/CartProvider/hooks';
+import { useCart } from '../components/CartProviderV2/hooks';
 import { formatPrice } from '../utils';
 
 const ProductTemplate = ({ product }: { product: any }) => {
@@ -36,7 +36,8 @@ const ProductTemplate = ({ product }: { product: any }) => {
   const { cart, addingToCart, addProductToCart } = useCart();
 
   const handleAddToCart = async (gid: string) => {
-    await addProductToCart(gid);
+    // await addProductToCart(gid);
+    await addProductToCart({ id: gid, quantity: 1 });
   };
 
   const disabled = selectedVariant?.quantityAvailable > 0 ? false : true;

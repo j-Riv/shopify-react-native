@@ -4,11 +4,11 @@ import { SERVER_URL } from '@env';
 
 import { Button } from '../elements/';
 import { Alert } from 'react-native';
-import { useCart } from '../CartProvider/hooks';
+import { useCart } from '../CartProviderV2/hooks';
 import { formatNumber } from '../../utils';
 
-function CheckoutButton({ navigation }) {
-  const { cart, getNewCart } = useCart();
+function CheckoutButton({ navigation, checkoutTotal }) {
+  const { cart, getNewCart, createDraftOrderFromCart } = useCart();
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,9 @@ function CheckoutButton({ navigation }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        amount: parseFloat(cart?.cost?.totalAmount.amount) * 100
+        // amount: Number(cart?.totalPrice) * 100
+        // amount: Math.round((Number(cart?.totalPrice) + Number.EPSILON) * 100)
+        amount: Math.round((checkoutTotal + Number.EPSILON) * 100)
       })
     });
     console.log('PAYMENT SHEET', response);
@@ -67,8 +69,9 @@ function CheckoutButton({ navigation }) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       Alert.alert('Success', 'Your order is confirmed!');
+      createDraftOrderFromCart();
       // kill checkout
-      const newCart = await getNewCart();
+      const newCart = getNewCart();
       if (newCart) {
         navigation.navigate('Collection');
       }
@@ -81,12 +84,13 @@ function CheckoutButton({ navigation }) {
 
   useEffect(() => {
     initializePaymentSheet();
-  }, [cart]);
+  }, [cart, checkoutTotal]);
 
   return (
     <Button
       disabled={!loading}
-      title={`Checkout $${formatNumber(cart?.cost?.totalAmount.amount)}`}
+      // title={`Checkout $${formatNumber(cart?.totalPrice)}`}
+      title={`Checkout $${formatNumber(checkoutTotal.toString())}`}
       onPress={openPaymentSheet}
     />
   );

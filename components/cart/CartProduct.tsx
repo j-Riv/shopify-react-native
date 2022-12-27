@@ -6,49 +6,42 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { useCart } from '../CartProvider/hooks';
+import { useCart } from '../CartProviderV2/hooks';
 import { Image } from '../elements';
 import { formatPrice } from '../../utils';
 
 const CartProduct = ({ line, onPress }) => {
+  console.log('LINE', line);
   const { updateProductInCart, removeProductFromCart } = useCart();
 
-  const handleQuantityChange = async (
-    lineId: string,
-    merchandiseId: string,
-    quantity: number
-  ) => {
-    const qty = quantity < 0 ? 0 : quantity;
-    await updateProductInCart(lineId, merchandiseId, qty);
+  const handleQuantityChange = async (id: string, qty: number) => {
+    const quantity = qty < 0 ? 0 : qty;
+    await updateProductInCart({ id, quantity });
   };
 
-  const handleRemove = async (lineId: string) => {
-    await removeProductFromCart(lineId);
+  const handleRemove = async (id: string) => {
+    await removeProductFromCart(id);
   };
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.product}>
         <View style={styles.image}>
-          <Image src={line.merchandise.image.src} />
+          <Image src={line.image.url} />
         </View>
         <View style={styles.item}>
-          <Text style={styles.title}>{line.merchandise.product.title}</Text>
-          {line.merchandise.title !== 'Default Title' && (
-            <Text style={styles.subtitle}>{line.merchandise.title}</Text>
+          <Text style={styles.title}>{line.name}</Text>
+          {line.name !== 'Default Title' && (
+            <Text style={styles.subtitle}>{line.name}</Text>
           )}
           <Text style={styles.price}>
-            ${formatPrice(line.merchandise.priceV2.amount)}
+            ${formatPrice(line.originalUnitPrice.amount)}
           </Text>
           <View style={styles.lineUpdateContainer}>
             <Pressable
               style={styles.lineUpdateButton}
               onPress={() =>
-                handleQuantityChange(
-                  line.id,
-                  line.merchandise.id,
-                  line.quantity - 1
-                )
+                handleQuantityChange(line.variant.id, line.quantity - 1)
               }
             >
               <Text>-</Text>
@@ -57,17 +50,13 @@ const CartProduct = ({ line, onPress }) => {
             <Pressable
               style={styles.lineUpdateButton}
               onPress={() =>
-                handleQuantityChange(
-                  line.id,
-                  line.merchandise.id,
-                  line.quantity + 1
-                )
+                handleQuantityChange(line.variant.id, line.quantity + 1)
               }
             >
               <Text>+</Text>
             </Pressable>
           </View>
-          <Pressable onPress={() => handleRemove(line.id)}>
+          <Pressable onPress={() => handleRemove(line.variant.id)}>
             <Text style={styles.remove}>Remove</Text>
           </Pressable>
         </View>
